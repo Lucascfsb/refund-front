@@ -12,5 +12,5 @@
   --color-green-100: #1f8459;
   --color-green-200: #2cb178;
 
-  text-xxs: 0.625rem;
+  --text-xxs: 0.625rem;
 }
