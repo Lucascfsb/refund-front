@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import { CATEGORIES, CATEGORIES_KEYS } from "../utils/categories";
 
 import { Upload } from "../components/Upload";
@@ -15,9 +17,12 @@ export function Refund() {
   const [filename, setFilename] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
+    navigate("/confirm", { state: { fromSubmit: true } });
   }
 
   return (
