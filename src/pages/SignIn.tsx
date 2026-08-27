@@ -14,7 +14,6 @@ export function SignIn() {
     event.preventDefault();
     setIsLoading(true);
     console.log(formData);
-    alert("Formulário enviado!");
   }
 
   return (

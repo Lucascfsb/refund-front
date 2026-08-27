@@ -24,9 +24,6 @@ export function SignUp() {
       setIsLoading(false);
       return;
     }
-
-    console.log(formData);
-    alert("Formulário enviado!");
   }
 
   return (

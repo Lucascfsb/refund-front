@@ -1,13 +1,30 @@
 import { useState } from "react";
 import { CATEGORIES, CATEGORIES_KEYS } from "../utils/categories";
+
 import { Upload } from "../components/Upload";
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
+import { Button } from "../components/Button";
 
 export function Refund() {
-  const [category, setCategory] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    amount: "",
+    category: "",
+  });
+  const [filename, setFilename] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsLoading(true);
+  }
+
   return (
-    <form className="bg-gray-500 w-full rounded-xl flex flex-col p-10 gap-6 lg:min-w[512px]">
+    <form
+      className="bg-gray-500 w-full rounded-xl flex flex-col p-10 gap-6 lg:min-w[512px]"
+      onSubmit={onSubmit}
+    >
       <header>
         <h1 className="text-xl font-bold text-gray-100">
           Solicitação de reembolso
@@ -17,14 +34,23 @@ export function Refund() {
         </p>
       </header>
 
-      <Input required legend="Nome da soliciatação" />
+      <Input
+        required
+        legend="Nome da soliciatação"
+        value={formData.name}
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, name: e.target.value }))
+        }
+      />
 
       <div className="flex gap-4">
         <Select
           required
           legend="Categoria"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={formData.category}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, category: e.target.value }))
+          }
         >
           {CATEGORIES_KEYS.map((category) => (
             <option key={category} value={category}>
@@ -33,10 +59,24 @@ export function Refund() {
           ))}
         </Select>
 
-        <Input legend="Valor" required />
+        <Input
+          legend="Valor"
+          required
+          value={formData.amount}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, amount: e.target.value }))
+          }
+        />
       </div>
 
-      <Upload />
+      <Upload
+        filename={filename && filename.name}
+        onChange={(e) => e.target.files && setFilename(e.target.files[0])}
+      />
+
+      <Button type="submit" isLoading={isLoading}>
+        Enviar
+      </Button>
     </form>
   );
 }
