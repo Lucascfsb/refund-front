@@ -11,7 +11,7 @@ export function Confirm() {
   return (
     <div className="bg-gray-500 lg:w-[512px] rounded-xl flex flex-col items-center p-10 gap-6">
       <h1 className="text-2xl font-bold text-center text-green-100">
-        Solicitação envidad!
+        Solicitação enviada!
       </h1>
 
       <img src={okSvg} alt="Ícone de Ok" className="w-28" />
