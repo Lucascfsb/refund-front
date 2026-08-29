@@ -28,7 +28,7 @@ export function Dashboard() {
 
       <form
         onSubmit={fetchRefunds}
-        className="flex flex-1 items-center justify-between pb-6 border-b-[1px] border-b-gray-400 md:flex-row gap-2 mt-6"
+        className="flex flex-1 items-center justify-between pb-6 border-b border-b-gray-400 md:flex-row gap-2 mt-6"
       >
         <Input
           placeholder="Pesquisar pelo nome"
@@ -39,7 +39,7 @@ export function Dashboard() {
         </Button>
       </form>
 
-      <div>
+      <div className="mt-6 flex flex-col gap-4 max-h-85.5 overflow-y-scroll">
         <RefundItem data={REFUND_EXAMPLE} />
       </div>
     </div>
