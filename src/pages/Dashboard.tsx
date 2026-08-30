@@ -6,7 +6,7 @@ import { formatCurrency } from "../utils/formatCurrency";
 
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { RefundItem } from "../components/RefundItem";
+import { RefundItem, type refundItemProps } from "../components/RefundItem";
 import { Pagination } from "../components/Pagination";
 
 const REFUND_EXAMPLE = {
@@ -19,10 +19,26 @@ const REFUND_EXAMPLE = {
 
 export function Dashboard() {
   const [name, setName] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
+  const [refunds, setRefunds] = useState<refundItemProps[]>([REFUND_EXAMPLE]);
 
   function fetchRefunds(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log(name);
+  }
+
+  function handlePagiantion(action: "next" | "prev") {
+    setPage((prevPage) => {
+      if (action === "next" && prevPage < totalPages) {
+        return prevPage + 1;
+      }
+      if (action === "prev" && prevPage > 1) {
+        return prevPage - 1;
+      }
+
+      return prevPage;
+    });
   }
 
   return (
@@ -42,10 +58,17 @@ export function Dashboard() {
         </Button>
       </form>
 
-      <div className="mt-6 flex flex-col gap-4 max-h-85.5 overflow-y-scroll">
-        <RefundItem data={REFUND_EXAMPLE} />
+      <div className="my-6 flex flex-col gap-4 max-h-85.5 overflow-y-scroll">
+        {refunds.map((item) => (
+          <RefundItem key={item.id} data={item} href={`/refund/${item.id}`} />
+        ))}
       </div>
-      <Pagination current={1} total={10} />
+      <Pagination
+        current={page}
+        total={totalPages}
+        onNext={() => handlePagiantion("next")}
+        onPrev={() => handlePagiantion("prev")}
+      />
     </div>
   );
 }
