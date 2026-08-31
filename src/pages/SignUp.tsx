@@ -3,66 +3,49 @@ import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 
 export function SignUp() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    if (formData.password !== formData.passwordConfirm) {
-      alert("As senhas não conferem!");
-      setIsLoading(false);
-      return;
-    }
+    console.log(name, email, password, passwordConfirm);
   }
 
   return (
     <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
       <Input
-        name="name"
-        type="text"
         required
+        legend="Name"
         placeholder="Seu nome"
-        legend="Nome"
-        value={formData.name}
-        onChange={handleChange}
+        onChange={(e) => setName(e.target.value)}
       />
+
       <Input
-        name="email"
-        type="email"
         required
-        placeholder="seu@email.com"
         legend="E-mail"
-        value={formData.email}
-        onChange={handleChange}
+        type="email"
+        placeholder="seu@email.com"
+        onChange={(e) => setEmail(e.target.value)}
       />
+
       <Input
-        name="password"
-        type="password"
         required
-        placeholder="123456"
         legend="Senha"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <Input
-        name="passwordConfirm"
         type="password"
-        required
         placeholder="123456"
-        legend="Confirmação da senha"
-        value={formData.passwordConfirm}
-        onChange={handleChange}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <Input
+        required
+        legend="Confirmação da Senha"
+        type="password"
+        placeholder="123456"
+        onChange={(e) => setPasswordConfirm(e.target.value)}
       />
 
       <Button type="submit" isLoading={isLoading}>

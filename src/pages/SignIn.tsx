@@ -3,38 +3,31 @@ import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 
 export function SignIn() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
-    console.log(formData);
+    console.log(email, password);
   }
 
   return (
     <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
       <Input
-        name="email"
-        type="email"
         required
-        placeholder="seu@email.com"
         legend="E-mail"
-        value={formData.email}
-        onChange={handleChange}
+        type="email"
+        placeholder="seu@email.com"
+        onChange={(e) => setEmail(e.target.value)}
       />
       <Input
-        name="password"
-        type="password"
         required
-        placeholder="123456"
         legend="Senha"
-        value={formData.password}
-        onChange={handleChange}
+        type="password"
+        placeholder="123456"
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <Button type="submit" isLoading={isLoading}>
