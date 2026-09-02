@@ -1,34 +1,66 @@
-import { useState } from "react";
+import { useActionState } from "react";
+import { z, ZodError } from "zod";
+import { AxiosError } from "axios";
+
+import { api } from "../services/api";
+
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 
+const signInSchema = z.object({
+  email: z.email("E-mail inválido"),
+  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres").trim(),
+});
+
 export function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, formAction, isLoading] = useActionState(signIn, null);
 
-  function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function signIn(_: any, formData: FormData) {
+    try {
+      const data = signInSchema.parse({
+        email: formData.get("email"),
+        password: formData.get("password"),
+      });
 
-    console.log(email, password);
+      const response = await api.post("/sessions", data);
+    } catch (error) {
+      console.error(error);
+
+      if (error instanceof ZodError) {
+        return { message: error.issues[0].message };
+      }
+
+      if (error instanceof AxiosError) {
+        return { message: error.response?.data.message };
+      }
+
+      return {
+        message:
+          "Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.",
+      };
+    }
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
+    <form action={formAction} className="w-full flex flex-col gap-4">
       <Input
+        name="email"
         required
         legend="E-mail"
         type="email"
         placeholder="seu@email.com"
-        onChange={(e) => setEmail(e.target.value)}
       />
       <Input
+        name="password"
         required
         legend="Senha"
         type="password"
         placeholder="123456"
-        onChange={(e) => setPassword(e.target.value)}
       />
+
+      <p className="text-sm font-medium text-red-600 text-center my-4">
+        {state?.message}
+      </p>
 
       <Button type="submit" isLoading={isLoading}>
         Entrar
