@@ -1,5 +1,7 @@
 import { BrowserRouter } from "react-router";
 
+import { useAuth } from "../hooks/useAuth";
+
 import { Loading } from "../components/Loading";
 
 import { AuthRoutes } from "./AuthRoutes";
@@ -15,9 +17,8 @@ const session = {
 };
 
 export function Routes() {
-  if (isLoading) {
-    return <Loading />;
-  }
+  const context = useAuth();
+  console.log("AuthContext:", context);
 
   // Lógica de renderização condicional baseada na role
   function renderRoutes() {
@@ -29,6 +30,10 @@ export function Routes() {
       default:
         return <AuthRoutes />;
     }
+  }
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return <BrowserRouter>{renderRoutes()}</BrowserRouter>;
