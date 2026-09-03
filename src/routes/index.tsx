@@ -8,21 +8,11 @@ import { AuthRoutes } from "./AuthRoutes";
 import { ManagerRoutes } from "./ManagerRoutes";
 import { EmployeeRoutes } from "./EmployeeRoutes";
 
-const isLoading = false;
-
-const session = {
-  user: {
-    role: "",
-  },
-};
-
 export function Routes() {
-  const context = useAuth();
-  console.log("AuthContext:", context);
+  const { session, isLoading } = useAuth();
 
-  // Lógica de renderização condicional baseada na role
   function renderRoutes() {
-    switch (session.user.role) {
+    switch (session?.user.role) {
       case "employee":
         return <EmployeeRoutes />;
       case "manager":
