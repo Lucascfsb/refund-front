@@ -89,6 +89,26 @@ Depois do login, o token e os dados do usuario sao armazenados no `localStorage`
 
 Ao sair, os dados locais sao removidos e o usuario retorna para a tela de login.
 
+#### Exemplo de usuários para testa a aplicação
+
+```json
+{
+  "name": "Lucas Castro",
+  "email": "lucas@email.com",
+  "password": "123456",
+  "role": "manager"
+}
+```
+
+```json
+{
+  "name": "Clara Castro",
+  "email": "lucas@email.com",
+  "password": "123456",
+  "role": "employee"
+}
+```
+
 ## Estrutura do projeto
 
 ```text
